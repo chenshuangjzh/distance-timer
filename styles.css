@@ -1,0 +1,378 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 兼容性样式 */
+html {
+    -webkit-text-size-adjust: 100%; /* 防止iOS中横屏切换时字体大小调整 */
+    -ms-text-size-adjust: 100%; /* IE兼容性 */
+    -webkit-font-smoothing: antialiased; /* 字体平滑 */
+    -moz-osx-font-smoothing: grayscale; /* 字体平滑 */
+}
+
+body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 800px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+}
+
+.timer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+    padding: 15px 10px;
+    background-color: #3498db;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.time-unit:hover {
+    transform: translateY(-5px);
+}
+
+/* 为不同时间单位设置不同的颜色 */
+.time-unit:nth-child(1) { background-color: #e74c3c; } /* 年 - 红色 */
+.time-unit:nth-child(2) { background-color: #e67e22; } /* 月 - 橙色 */
+.time-unit:nth-child(3) { background-color: #f1c40f; } /* 日 - 黄色 */
+.time-unit:nth-child(4) { background-color: #2ecc71; } /* 时 - 绿色 */
+.time-unit:nth-child(5) { background-color: #3498db; } /* 分 - 蓝色 */
+.time-unit:nth-child(6) { background-color: #9b59b6; } /* 秒 - 紫色 */
+.time-unit:nth-child(7) { background-color: #34495e; } /* 毫秒 - 深灰色 */
+
+.time-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.time-label {
+    font-size: 1rem;
+    margin-top: 5px;
+    opacity: 0.9;
+}
+
+/* 毫秒特殊样式，因为变化太快 */
+#milliseconds {
+    font-size: 1.8rem;
+    font-family: monospace;
+    min-width: 3ch;
+    text-align: center;
+}
+
+/* 高亮效果 */
+.highlight {
+    animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* 状态容器样式 */
+.status-container {
+    margin-top: 20px;
+    min-height: 30px;
+}
+
+/* 加载指示器样式 */
+.loading-indicator {
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 10px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+/* 错误容器样式 */
+.error-container {
+    color: #fff;
+    background-color: #e74c3c;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 错误消息样式 */
+.error-message {
+    color: #fff;
+    background-color: #e74c3c;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 隐藏元素 */
+.hidden {
+    display: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .timer-container {
+        gap: 10px;
+    }
+    
+    .time-unit {
+        min-width: 70px;
+        padding: 10px 8px;
+    }
+    
+    .time-value {
+        font-size: 2rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    .timer-container {
+        gap: 8px;
+    }
+    
+    .time-unit {
+        min-width: 60px;
+        padding: 8px 5px;
+    }
+    
+    .time-value {
+        font-size: 1.5rem;
+    }
+    
+    .time-label {
+        font-size: 0.8rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+}/* 兼容性警告样式 *
+/
+.compatibility-warning {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background-color: rgba(255, 193, 7, 0.95);
+    color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.compatibility-warning h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.compatibility-warning ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.compatibility-warning button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.compatibility-warning button:hover {
+    background-color: #555;
+}
+
+/* 时区信息样式 */
+.timezone-info {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+/* IE兼容性修复 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .time-unit {
+        display: inline-block;
+        margin: 10px;
+    }
+    
+    .timer-container {
+        text-align: center;
+    }
+}
+
+/* Edge浏览器兼容性修复 */
+@supports (-ms-ime-align: auto) {
+    .time-unit {
+        transition: none;
+    }
+}
+
+/* 旧版Safari兼容性修复 */
+@media not all and (min-resolution:.001dpcm) { 
+    @supports (-webkit-appearance:none) {
+        .time-unit {
+            -webkit-transform: translateZ(0);
+        }
+    }
+}/* 
+性能监控面板样式 */
+.performance-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(44, 62, 80, 0.9);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 250px;
+    font-family: monospace;
+}
+
+.performance-panel h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.performance-metrics {
+    margin-bottom: 15px;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+}
+
+.metric-value {
+    font-weight: bold;
+}
+
+.metric-value.good {
+    color: #2ecc71;
+}
+
+.metric-value.average {
+    color: #f1c40f;
+}
+
+.metric-value.poor {
+    color: #e74c3c;
+}
+
+.performance-controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.performance-controls button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.performance-controls button:hover {
+    background-color: #2980b9;
+}
+
+/* 控制按钮样式 */
+.controls {
+    margin-top: 20px;
+}
+
+.control-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.control-button:hover {
+    background-color: #2980b9;
+}

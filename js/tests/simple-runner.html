@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link href="https://unpkg.com/mocha@8.0.1/mocha.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="mocha"></div>
+
+  <!-- 加载测试库 -->
+  <script src="https://unpkg.com/chai@4.2.0/chai.js"></script>
+  <script src="https://unpkg.com/mocha@8.0.1/mocha.js"></script>
+
+  <script>
+    mocha.setup('bdd');
+    const expect = chai.expect;
+  </script>
+
+  <!-- 加载被测试的代码 -->
+  <script src="../timeCalculator.js"></script>
+  
+  <!-- 简单测试 -->
+  <script>
+    describe('TimeCalculator', function() {
+      it('should initialize with correct start date', function() {
+        const calculator = new TimeCalculator();
+        expect(calculator.startDate.getFullYear()).to.equal(2020);
+        expect(calculator.startDate.getMonth()).to.equal(9); // 10月是索引9
+        expect(calculator.startDate.getDate()).to.equal(5);
+        expect(calculator.startDate.getHours()).to.equal(12);
+      });
+    });
+  </script>
+
+  <!-- 运行测试 -->
+  <script>
+    mocha.run();
+  </script>
+</body>
+</html>

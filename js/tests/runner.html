@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间计算模块测试</title>
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css">
+</head>
+<body>
+    <div id="mocha"></div>
+    
+    <!-- 测试框架 -->
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    
+    <script>
+        mocha.setup('bdd');
+        const expect = chai.expect;
+        
+        // 模拟Node.js环境的require函数
+        function require(path) {
+            // 简单的模块映射
+            const modules = {
+                '../timeCalculator.js': TimeCalculator
+            };
+            return modules[path];
+        }
+        
+        // 模拟Jest的测试函数
+        function describe(name, fn) {
+            mocha.describe(name, fn);
+        }
+        
+        function test(name, fn) {
+            mocha.it(name, fn);
+        }
+        
+        function beforeEach(fn) {
+            mocha.beforeEach(fn);
+        }
+    </script>
+    
+    <!-- 被测试的代码 -->
+    <script src="../timeCalculator.js"></script>
+    
+    <!-- 测试代码 -->
+    <script src="timeCalculator.test.js"></script>
+    
+    <script>
+        // 运行测试
+        mocha.run();
+    </script>
+</body>
+</html>

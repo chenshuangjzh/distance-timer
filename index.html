@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>距离计时器 - 从2020年10月5日12点开始</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- 添加浏览器兼容性元标签 -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#3498db">
+</head>
+<body>
+    <div class="container">
+        <h1>距离计时器</h1>
+        <p class="subtitle">从2020年10月5日12点开始已经过去了</p>
+        
+        <div id="timer-container" class="timer-container">
+            <div class="time-unit">
+                <span id="years" class="time-value">0</span>
+                <span class="time-label">年</span>
+            </div>
+            <div class="time-unit">
+                <span id="months" class="time-value">0</span>
+                <span class="time-label">月</span>
+            </div>
+            <div class="time-unit">
+                <span id="days" class="time-value">0</span>
+                <span class="time-label">日</span>
+            </div>
+            <div class="time-unit">
+                <span id="hours" class="time-value">0</span>
+                <span class="time-label">时</span>
+            </div>
+            <div class="time-unit">
+                <span id="minutes" class="time-value">0</span>
+                <span class="time-label">分</span>
+            </div>
+            <div class="time-unit">
+                <span id="seconds" class="time-value">0</span>
+                <span class="time-label">秒</span>
+            </div>
+            <div class="time-unit">
+                <span id="milliseconds" class="time-value">0</span>
+                <span class="time-label">毫秒</span>
+            </div>
+        </div>
+        
+        <div id="status-container" class="status-container">
+            <div id="loading-indicator" class="loading-indicator hidden">加载中...</div>
+            <div id="error-container" class="error-container hidden"></div>
+        </div>
+        
+        <div id="timezone-info" class="timezone-info">
+            <p>当前时区: <span id="timezone-name">加载中...</span></p>
+        </div>
+        
+        <div class="controls">
+            <button id="show-performance" class="control-button">显示性能监控</button>
+        </div>
+    </div>
+
+    <!-- 兼容性脚本 -->
+    <script src="js/browserCompatibility.js"></script>
+    
+    <!-- 核心脚本 -->
+    <script src="js/timeCalculator.js"></script>
+    <script src="js/displayUpdater.js"></script>
+    <script src="js/performanceManager.js"></script>
+    <script src="js/performanceMonitor.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/distanceTimer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>距离计时器集成测试</title>
+  <link href="https://unpkg.com/mocha@8.0.1/mocha.css" rel="stylesheet" />
+  <style>
+    .test-app {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      margin-bottom: 30px;
+    }
+    .timer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .time-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 60px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
+    .time-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .time-label {
+      margin-top: 5px;
+      color: #666;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 测试应用 -->
+  <div class="test-app">
+    <h1>距离计时器</h1>
+    <p>从2020年10月5日12点开始已经过去了</p>
+    
+    <div id="timer-container" class="timer-container">
+      <div class="time-unit">
+        <span id="years" class="time-value">0</span>
+        <span class="time-label">年</span>
+      </div>
+      <div class="time-unit">
+        <span id="months" class="time-value">0</span>
+        <span class="time-label">月</span>
+      </div>
+      <div class="time-unit">
+        <span id="days" class="time-value">0</span>
+        <span class="time-label">日</span>
+      </div>
+      <div class="time-unit">
+        <span id="hours" class="time-value">0</span>
+        <span class="time-label">时</span>
+      </div>
+      <div class="time-unit">
+        <span id="minutes" class="time-value">0</span>
+        <span class="time-label">分</span>
+      </div>
+      <div class="time-unit">
+        <span id="seconds" class="time-value">0</span>
+        <span class="time-label">秒</span>
+      </div>
+      <div class="time-unit">
+        <span id="milliseconds" class="time-value">0</span>
+        <span class="time-label">毫秒</span>
+      </div>
+    </div>
+    
+    <div id="status-container" class="status-container">
+      <div id="loading-indicator" class="loading-indicator hidden">加载中...</div>
+      <div id="error-container" class="error-container hidden"></div>
+    </div>
+  </div>
+
+  <!-- Mocha 测试容器 -->
+  <div id="mocha"></div>
+
+  <!-- 加载测试库 -->
+  <script src="https://unpkg.com/chai@4.2.0/chai.js"></script>
+  <script src="https://unpkg.com/mocha@8.0.1/mocha.js"></script>
+  <script src="https://unpkg.com/sinon@9.0.2/pkg/sinon.js"></script>
+
+  <script>
+    mocha.setup('bdd');
+    const expect = chai.expect;
+    
+    // 模拟 require 函数
+    function require(path) {
+      const modules = {
+        '../timeCalculator.js': TimeCalculator,
+        '../displayUpdater.js': DisplayUpdater,
+        '../performanceManager.js': PerformanceManager,
+        '../errorHandler.js': ErrorHandler,
+        '../distanceTimer.js': DistanceTimer
+      };
+      return modules[path];
+    }
+    
+    // 模拟 Jest 函数
+    const test = mocha.it;
+    const jest = {
+      fn: function() {
+        const mockFn = function() {
+          mockFn.calls.push(Array.from(arguments));
+          return mockFn.returnValue;
+        };
+        mockFn.calls = [];
+        mockFn.returnValue = undefined;
+        mockFn.mockReturnValue = function(value) {
+          mockFn.returnValue = value;
+          return mockFn;
+        };
+        return mockFn;
+      }
+    };
+  </script>
+
+  <!-- 加载被测试的代码 -->
+  <script src="../timeCalculator.js"></script>
+  <script src="../displayUpdater.js"></script>
+  <script src="../performanceManager.js"></script>
+  <script src="../errorHandler.js"></script>
+  <script src="../distanceTimer.js"></script>
+  
+  <!-- 简单集成测试 -->
+  <script>
+    describe('距离计时器集成测试', function() {
+      let timeCalculator;
+      let displayUpdater;
+      
+      beforeEach(function() {
+        // 重置DOM元素
+        document.getElementById('years').textContent = '0';
+        document.getElementById('months').textContent = '0';
+        document.getElementById('days').textContent = '0';
+        document.getElementById('hours').textContent = '0';
+        document.getElementById('minutes').textContent = '0';
+        document.getElementById('seconds').textContent = '0';
+        document.getElementById('milliseconds').textContent = '0';
+        
+        // 创建实例
+        timeCalculator = new TimeCalculator();
+        displayUpdater = new DisplayUpdater(document.getElementById('timer-container'));
+      });
+      
+      it('应该能够正确计算时间差并更新显示', function() {
+        // 创建一个特定的日期用于测试
+        const testDate = new Date(2021, 0, 1, 12, 0, 0, 0); // 2021-01-01 12:00:00
+        
+        // 计算时间差
+        const timeDiff = timeCalculator.calculateTimeDifference(testDate);
+        
+        // 更新显示
+        displayUpdater.updateDisplay(timeDiff);
+        
+        // 验证DOM是否正确更新
+        expect(document.getElementById('months').textContent).to.equal(String(timeDiff.months));
+        expect(document.getElementById('days').textContent).to.equal(String(timeDiff.days));
+      });
+      
+      it('TimeCalculator应该正确处理闰年', function() {
+        expect(timeCalculator.isLeapYear(2020)).to.be.true;
+        expect(timeCalculator.isLeapYear(2021)).to.be.false;
+      });
+    });
+  </script>
+
+  <!-- 运行测试 -->
+  <script>
+    window.onload = function() {
+      mocha.run();
+    };
+  </script>
+</body>
+</html>
